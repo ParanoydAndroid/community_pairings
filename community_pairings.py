@@ -1,11 +1,9 @@
-import math
-import json
 import argparse
+import json
+import math
 from itertools import permutations
 from statistics import mean
-from typing import Dict, Iterable, Tuple, Union
-
-Preferences = Dict[str, Dict[str, int]]
+from typing import Dict, Iterable
 
 PREFERENCES = {
     'Britta': {
@@ -92,6 +90,10 @@ def main():
         with open(args.prefs, 'r') as f:
             preferences = json.load(f)
 
+    if len(preferences) % 2 != 0:
+        print('Cannot assign partners among an odd number of people.  Quitting.')
+        return
+
     ranker = Ranker(preferences, args.metric, worst=args.britta)
     ranker.get_solutions()
 
@@ -109,18 +111,21 @@ def main():
 class Ranker:
     '''Calculate the best lab partners under a variety of metrics.
     '''
+    Preferences = Dict[str, Dict[str, int]]
 
     def __init__(self, preferences: Preferences, metric: str, **kwargs):
         self.preferences = preferences
         self.metric = metric
+
         self.worst = kwargs.get('worst', False)
+
         self.solutions = set()
         self.score = 0
         self.format_string = '.2f'
 
     def get_solutions(self):
         ''' Using the given metric and preferences, set the solution(s) to the pairings with the best score, 
-         and additionally set the formatting string for display
+         and additionally set the formatting string for display.
          '''
 
         # The audience appeal metric requires special handling because it's constructed, not searched for.
@@ -149,9 +154,9 @@ class Ranker:
         self.score = reverse * self.score
 
     def get_audience_appeal(self) -> frozenset:
-        ''' Returns the solution that pairs the most and least popular people
+        ''' Returns the solution that pairs the most and least popular people.
 
-            Must be uniquely handled because it's directly constructed instead of a search.
+        Must be uniquely handled because it's directly constructed instead of a search.
         '''
         popularity = []
         for member in self.preferences.keys():
@@ -178,7 +183,7 @@ class Ranker:
 
     def get_score(self, pairings: frozenset) -> float:
         ''' Returns the score of all pairings by dispatching to various metric functions.  Does not
-            handle audience appeal.
+        handle audience appeal.
         '''
         if self.metric == 'total':
             return self._get_total_happiness(pairings)
@@ -191,10 +196,10 @@ class Ranker:
 
         else:
             raise Exception(
-                'Invalid argument provided as metric.  Please use "avg", "total", or "appeal"')
+                'Invalid argument provided as metric.  Please use "avg", "total", "maximin" or "appeal"')
 
     def _get_total_happiness(self, pairings) -> float:
-        ''' Metric calculated by the total sum of pairwise preference (lower is better)
+        ''' Metric calculated by the total sum of pairwise preference (lower is better).
         '''
         score = 0.0
         for first, second in pairings:
@@ -218,7 +223,7 @@ class Ranker:
     def _get_maximin(self, pairings) -> float:
         ''' Metric that returns the worst single pairing, and therefore minimizes the worst possible situation
 
-            ... unless you Britta it, in which case it returns the pairing(s) with the worst single pair possible.
+        ... unless you Britta it, in which case it returns the pairing(s) with the worst single pair possible.
         '''
         worst = 0
         for first, second in pairings:
@@ -229,34 +234,21 @@ class Ranker:
         return worst
 
     def get_pairings(self) -> Iterable:
+        # In case you're wondering, we use frozensets everywhere because we want fast, order-agnostic inclusion checks,
+        # but sets can't contain sets, so we use the immutable frozensets as hashable elements of the solutions set.
+
         iter = permutations(self.preferences.keys())
         for permutation in iter:
-            pairings: frozenset = frozenset((
-                frozenset((permutation[0], permutation[1])),
-                frozenset((permutation[2], permutation[3])),
-                frozenset((permutation[4], permutation[5])),
-                frozenset((permutation[6], permutation[7])),
-            ))
+            pairings = []
+            for i in range(0, len(permutation) - 1, 2):
+                first = permutation[i]
+                second = permutation[(i+1)]
+                pairings.append(frozenset((first, second)))
 
-            yield pairings
+            yield frozenset(pairings)
 
 
-def _get_cli_args():  # pragma: no cover
-    preference_format = '''
-    {
-        "voter_name": 
-            {
-                "votee_name": (int)rank, 
-                ...
-            }, 
-        "next_voter_name": 
-            {
-                "votee_name": (int)rank,
-                ...
-            }
-    }
-    '''
-
+def _get_cli_args():
     parser = argparse.ArgumentParser(
         description="Calculate the best lab partners under a variety of metrics")
     parser.add_argument('--metric', '-m', default='appeal',
@@ -264,9 +256,9 @@ def _get_cli_args():  # pragma: no cover
     parser.add_argument('--britta', '-b', action='store_true',
                         help='If set, returns the worst pairings according to the given metric')
     parser.add_argument(
-        '--prefs', '-p', default=None, help=f'File name corresponding to a JSON-formatted dictionary of group '
-        f' preference ballots. Specifically, {preference_format}. Defaults to the global PREFERENCES variable in this '
-        'script.')
+        '--prefs', '-p', default=None, help=f'Name of a file containing a JSON-formatted dictionary of group '
+        'preference ballots. See example_ballot.json for a ballot, that is an example and, unexpectedly, is in json. '
+        'Defaults to the global PREFERENCES variable in this script.')
     return parser.parse_args()
 
 

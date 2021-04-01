@@ -11,10 +11,10 @@ Alternatively, the ballot can be defined in a json file and passed into the scri
 
 # Flags:
 
--   --metric, -m: Defines the metric by which we determine the "best" pairings. Currently supports 'avg', 'total', 'maximin', and 'appeal'. Because most metrics depend on rankings, lower is normally better (e.g. usually the better pairing is between two partners who ranked each other as their number 1 pick as opposed to number 7 picks)
+-   --metric, -m: Defines the metric by which we determine the "best" pairings. Currently supports 'avg', 'total', 'maximin', and 'appeal'. Because most metrics depend on rankings, lower is normally better (e.g. usually the better pairing is between two partners who ranked each other as their number 1 pick as opposed to number 7 picks).
 
-    -   avg: Returns the pairings with the lowest average score
-    -   total: Returns the pairings with the lower total score
+    -   avg: Returns the pairings with the lowest average score.
+    -   total: Returns the pairings with the lower total score.
     -   maximin: Returns the pairings where the worst pairing involved is as good as it can be. In other words, maximizes the minimum happiness someone could end up with in their pairing.
     -   appeal: Based on Abed's technique, pairs the most and least popular people together. The provided PREFERENCES config is already set up so that appeal returns the same pairings seen in the show.
 
@@ -26,7 +26,7 @@ Alternatively, the ballot can be defined in a json file and passed into the scri
 
 # Examples:
 
--   Get the pairings with the best total score (the mutual rankings between all partners sum to the lowest value possible) `python community_pairings.py -m total`
+-   Get the pairings with the best total score (the mutual rankings between all partners sum to the lowest value possible): `python community_pairings.py -m total`
 
 -   Get the pairings with the best average score: `python community_pairings.py -m avg`
 
