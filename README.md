@@ -26,6 +26,8 @@ Alternatively, the ballot can be defined in a json file and passed into the scri
 
 # Examples:
 
+-   Default, get the audience appeal based on the ballots defined in PREFERENCES in the script: `python community_pairings.py`
+
 -   Get the pairings with the best total score (the mutual rankings between all partners sum to the lowest value possible): `python community_pairings.py -m total`
 
 -   Get the pairings with the best average score: `python community_pairings.py -m avg`
