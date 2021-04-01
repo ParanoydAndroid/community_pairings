@@ -5,25 +5,24 @@ Run `python community_pairings.py --help` for help information, some of which is
 
 # Input:
 
-    A PREFERENCES environment variable is already defined in the script, and can be used by default or edited to reflect
-    your voting ideas.
+A PREFERENCES environment variable is already defined in the script, and can be used by default or edited to reflect your voting ideas.
 
-    Alternatively, the ballot can be defined in a json file and passed into the script, see Flags below.
+Alternatively, the ballot can be defined in a json file and passed into the script, see Flags below.
 
 # Flags:
 
---metric, -m: Defines the metric by which we determine the "best" pairings. Currently supports 'avg', 'total', 'maximin', and 'appeal'. Because most metrics depend on rankings, lower is normally better (e.g. usually the better pairing is between two partners who ranked each other as their number 1 pick as opposed to number 7 picks)
+-   --metric, -m: Defines the metric by which we determine the "best" pairings. Currently supports 'avg', 'total', 'maximin', and 'appeal'. Because most metrics depend on rankings, lower is normally better (e.g. usually the better pairing is between two partners who ranked each other as their number 1 pick as opposed to number 7 picks)
 
-    - avg: Returns the pairings with the lowest average score
-    - total: Returns the pairings with the lower total score
-    - maximin: Returns the pairings where the worst pairing involved is as good as it can be. In other words, maximizes the minimum happiness someone could end up with in their pairing.
-    - appeal: Based on Abed's technique, pairs the most and least popular people together. The provided PREFERENCES config is already set up so that appeal returns the same pairings seen in the show.
+    -   avg: Returns the pairings with the lowest average score
+    -   total: Returns the pairings with the lower total score
+    -   maximin: Returns the pairings where the worst pairing involved is as good as it can be. In other words, maximizes the minimum happiness someone could end up with in their pairing.
+    -   appeal: Based on Abed's technique, pairs the most and least popular people together. The provided PREFERENCES config is already set up so that appeal returns the same pairings seen in the show.
 
---britta, -b: If you want to britta the pairings, just pass this flag in. Reverses the scoring system so that the
-metrics return the worst possible pairing under their scoring system. E.g. a britta flag on the maximin metric
-will return whichever pairings involve the worst possible pair of lab partners. Does not apply to the appeal metric.
+-   --britta, -b: If you want to britta the pairings, just pass this flag in. Reverses the scoring system so that the
+    metrics return the worst possible pairing under their scoring system. E.g. a britta flag on the maximin metric
+    will return whichever pairings involve the worst possible pair of lab partners. Does not apply to the appeal metric.
 
---prefs, -p: A file name containing a JSON ballot. See the example_ballot.json file for the ballot format.
+-   --prefs, -p: A file name containing a JSON ballot. See the example_ballot.json file for the ballot format.
 
 # Examples:
 
