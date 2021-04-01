@@ -87,8 +87,19 @@ def main():
         preferences = PREFERENCES
 
     else:
-        with open(args.prefs, 'r') as f:
-            preferences = json.load(f)
+        try:
+            with open(args.prefs, 'r') as f:
+                preferences = json.load(f)
+
+        except Exception as e:
+            print(
+                f'Could not decode JSON file! {str(e)}')
+
+            ans = input('Use default ballots instead? [Y/n]: ').lower()
+            if ans not in ['y', '']:
+                return
+
+            preferences = PREFERENCES
 
     if len(preferences) % 2 != 0:
         print('Cannot assign partners among an odd number of people.  Quitting.')
