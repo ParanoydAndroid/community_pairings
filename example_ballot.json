@@ -1,0 +1,74 @@
+{
+    "Britta": {
+        "Jeff": 4,
+        "Todd": 2,
+        "Annie": 1,
+        "Pierce": 6,
+        "Shirley": 7,
+        "Abed": 3,
+        "Troy": 5
+    },
+    "Jeff": {
+        "Britta": 3,
+        "Todd": 5,
+        "Annie": 1,
+        "Pierce": 6,
+        "Shirley": 7,
+        "Abed": 2,
+        "Troy": 4
+    },
+    "Todd": {
+        "Britta": 1,
+        "Jeff": 1,
+        "Annie": 1,
+        "Pierce": 1,
+        "Shirley": 1,
+        "Abed": 1,
+        "Troy": 1
+    },
+    "Annie": {
+        "Britta": 5,
+        "Jeff": 6,
+        "Todd": 3,
+        "Pierce": 4,
+        "Shirley": 7,
+        "Abed": 1,
+        "Troy": 2
+    },
+    "Pierce": {
+        "Britta": 5,
+        "Jeff": 4,
+        "Todd": 7,
+        "Annie": 1,
+        "Shirley": 6,
+        "Abed": 2,
+        "Troy": 3
+    },
+    "Shirley": {
+        "Britta": 2,
+        "Jeff": 4,
+        "Todd": 3,
+        "Annie": 5,
+        "Pierce": 7,
+        "Abed": 6,
+        "Troy": 1
+    },
+    "Abed": {
+        "Britta": 7,
+        "Jeff": 4,
+        "Todd": 2,
+        "Annie": 3,
+        "Pierce": 6,
+        "Shirley": 5,
+        "Troy": 1
+    },
+    "Troy": {
+        "Britta": 6,
+        "Jeff": 4,
+        "Todd": 3,
+        "Annie": 2,
+        "Pierce": 7,
+        "Shirley": 5,
+        "Abed": 1
+    }
+}
